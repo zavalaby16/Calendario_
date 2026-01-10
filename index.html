@@ -27,12 +27,12 @@
         }
 
         .polaroid {
-            background: #fff; 
-            padding: 15px 15px 25px 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);                
-            border-radius: 6px; 
+            background: linear-gradient(145deg, #ffffff, #f0f0f3); 
+            padding: 18px 18px 28px 18px;
+            border-radius;12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);                 
             break-inside: avoid;
-            transition: width 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
@@ -49,9 +49,10 @@
             margin: 0 auto;
         }
 
-        .photo-area { width: 100%; aspect-ratio: 1/1; background: #eee; overflow: hidden; }
-        .photo-area img { width: 100%; height: 100%; object-fit: cover; }
-        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; font-size: 10px; text-align: center; margin-top: 10px; }
+        .photo-area { width: 100%; aspect-ratio: 1/1; background: #e0e0e0; overflow: hidden;border-radius: 8px; }
+        .photo-area img { width: 100%; height: 100%; object-fit: cover;transition: transform 0.3s ease; }
+        .photo-area img { transform: scale (1.05); }
+        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; font-size: 11px; text-align: center; margin-top: 12px; }
 
         @media print {
             .no-print { display: none !important; }
@@ -67,20 +68,17 @@
 
         /* Modo oscuro */
         .dark-mode {
-            background-color: #1e1e1e;
+            background-color: #1a1a1a;
             color: #f2f2f7;
         }
         .dark-mode .polaroid {
-            background-color: #2a2a2a;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2), 0 2px 6px rgba(0,0,0,0.1);
+            background-color: linear-gradient(145deg, #2a2a2a, #333333);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.15);
         }
         .dark-mode .photo-area {
             background: #444;
         }
-        .dark-mode .no-print {
-            background-color: #2a2a2a;
-            color: #f2f2f7;
-        }
+        
         .dark-mode input,
         .dark-mode select,
         .dark-mode button {
