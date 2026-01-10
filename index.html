@@ -10,11 +10,10 @@
         
         /* Contenedor dinámico según orientación */
         #grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            padding: 16px;
         }
 
         .polaroid {
@@ -120,6 +119,7 @@
                 const card = document.createElement('div');
                 card.className = 'polaroid';
                 card.style.width = width + 'px';
+                card.style.maxWidth = '100%';
                 
                 // Ajustar fuentes proporcionalmente al tamaño
                 const titleSize = Math.max(16, width / 11);
