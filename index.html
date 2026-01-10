@@ -208,8 +208,8 @@
         if ('serviceWorker' in navigator) {
    navigator.serviceWorker.register('sw.js');
  }
+    document.addEventListener('DOMContentLoaded', () => {       
         const toggle = document.getElementById('toggle-theme');
-
         toggle.onclick = () => {
         document.body.classList.toggle('dark-mode');
   };
