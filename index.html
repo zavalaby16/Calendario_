@@ -68,35 +68,37 @@
 
         /* Modo oscuro */
         .dark-mode {
-            background-color: #1a1a1a;
+            background-color: #121212;
             color: #f2f2f7; /* texto general */
         }
         .dark-mode .polaroid {
-            background-color: linear-gradient(145deg, #2a2a2a, #333333);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.15);
-            color: #f2f2f7; /* texto dentro de las tarjetas */
+            background-color: linear-gradient(145deg, #1f1f1f,#2a2a2a);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.2);
+            color: #f2f2f7; /* texto d* marca centrada */entro de las tarjetas */
+            text-align: center; /* marca centrada */
         }
         .dark-mode .polaroid div {
-            color: #ddd; /* días de la cuadrícula en claro */
+            color: #f2f2f7; /* días de la cuadrícula en claro */
         } 
         
         .dark.mode .days-grid div {
-            color: #f2f2f7 !important; /* !important asegura que sobrescriba cualquier color inline */
-        }
+            color: #e0e0e0 !important; /* días más visibles */
+            
         .dark.mode .days-grid div.font-bold {
-            color: #ccc !important;
+            color: #ccc !important; /* encabezados L M M J V S D */
         }    
         
         .dark-mode .photo-area {
-            background: #444;
+            background: #333;
         }
         
         .dark-mode input,
         .dark-mode select,
         .dark-mode button {
-            background-color: #444 !important;
+            background-color: #2a2a2a !important;
             color: #f2f2f7 !important;
-            border-color: #666 !important;
+            border-color: #555 !important;
+            caret-color: #f2f2f7;
         }
     </style>
 </head>
