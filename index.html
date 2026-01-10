@@ -29,7 +29,7 @@
         .polaroid {
             background: linear-gradient(145deg, #ffffff, #f0f0f3); 
             padding: 18px 18px 28px 18px;
-            border-radius;12px;
+            border-radius: 12px;
             box-shadow: 0 6px 15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);                 
             break-inside: avoid;
             transition: all 0.3s ease;
@@ -72,7 +72,7 @@
             color: #f2f2f7; /* texto general */
         }
         .dark-mode .polaroid {
-            background-color: linear-gradient(145deg, #1f1f1f,#2a2a2a);
+            background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
             box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.2);
             color: #f2f2f7; /* texto d* marca centrada */entro de las tarjetas */
             text-align: center; /* marca centrada */
@@ -81,11 +81,11 @@
             color: #f2f2f7; /* días de la cuadrícula en claro */
         } 
         
-        .dark.mode .days-grid div {
+        .dark-mode .days-grid div {
             color: #e0e0e0 !important; /* días más visibles */
             
-        .dark.mode .days-grid div.font-bold {
-            color: #ccc !important; /* encabezados L M M J V S D */
+        .dark-mode .days-grid div.font-bold {
+            color: #bdbdbd !important; /* encabezados L M M J V S D */
         }    
         
         .dark-mode .photo-area {
@@ -102,14 +102,14 @@
         }
         /* Marca siempre centrada y visible */
         .polaroid .marca {
-        text-align: center;
-        margin: 0 auto;
-        width: 100%;
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
        }
         /* Marca en modo oscuro */
         .dark-mode .polaroid .marca {
-        color: #eaeaea !important;
-        opacity: 0.9;
+            color: #dcdcdc;
+            opacity: 0.9;
        }
             
     </style>
@@ -193,7 +193,7 @@
                     <div style="color:${c}; font-size:${titleSize}px; font-weight:900; margin-top:15px; line-height:1;">${m}</div>
                     <div style="font-size:${subtitleSize}px;" class="text-gray-400 mb-2">${y}</div>
                     <div class="days-grid" style="font-size:${daySize}px;">${crearDias(y,i)}</div>
-                    <div class="mt-4 pt-2 border-t text-center text-[10px] text-gray-400 italic">${b}</div>
+                    <div class="marca mt-4 pt-2 border-t text-center text-[10px] text-gray-400 italic">${b}</div>
                 `;
                 grid.appendChild(card);
             });
