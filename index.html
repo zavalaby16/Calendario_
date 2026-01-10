@@ -10,6 +10,9 @@
     <style>
         body {
             font-family: Inter', system-ui, sans-serif;
+            background-color: #f2f2f7;
+            color: #111;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .mes-titulo {
@@ -32,7 +35,17 @@
               0 2px 6px rgba(0,0,0,0.04);                
             border-radius: 6px; 
             break-inside: avoid;
-            transition: width 0.2s ease,box-shadow 0.2s ease;
+            transition: width 0.2s ease,box-shadow 0.2s ease,background 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Hover de tarjeta */
+        .polaroid:hover,
+        .polaroid:active {
+          transform: translateY(-3px);
+          box-shadow:
+            0 15px 30px rgba(0,0,0,0.08),
+            0 4px 8px rgba(0,0,0,0.06);
         }
 
         /* Clase para disposición horizontal (2 columnas) */
@@ -51,27 +64,29 @@
             .no-print { display: none !important; }
             body { background: white !important; }
             .polaroid { box-shadow: none !important; border: 1px solid #eee !important; margin: 10px auto !important; }
-
-        .polaroid {
-          cursor: pointer;
-          transition: transform 0.15s ease, box-shadow 0.15s ease;
-        }
-
-        .polaroid:hover,
-        .polaroid:active {
-          transform: translateY(-3px);
-          box-shadow:
-            0 15px 30px rgba(0,0,0,0.08),
-            0 4px 8px rgba(0,0,0,0.06);
-        }
-
-            /* Asegurar que el layout se mantenga en la impresión */
+       /* Asegurar que el layout se mantenga en la impresión */
             .layout-horizontal {
                 display: grid !important;
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 10px !important;
-                max-width: none !important;
+                max-width: none !important; 
             }
+        }
+        /* Modo oscuro */
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f2f2f7;
+        }
+
+        .dark-mode .polaroid {
+            background-color: #2a2a2a;
+        box-shadow:
+          0 10px 25px rgba(0,0,0,0.2),
+          0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .dark-mode .photo-area {
+            background: #444;
         }
     </style>
 </head>
@@ -193,6 +208,11 @@
         if ('serviceWorker' in navigator) {
    navigator.serviceWorker.register('sw.js');
  }
+        const toggle = document.getElementById('toggle-theme');
+
+        toggle.onclick = () => {
+        document.body.classList.toggle('dark-mode');
+  };
 
     </script>
 </body>
