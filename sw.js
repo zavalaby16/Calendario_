@@ -3,6 +3,9 @@ const FILES_TO_CACHE = [
   "./",
   "./index.html",
   "./manifest.json"
+   "./tailwind.js",
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
