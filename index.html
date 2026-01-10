@@ -51,7 +51,20 @@
             .no-print { display: none !important; }
             body { background: white !important; }
             .polaroid { box-shadow: none !important; border: 1px solid #eee !important; margin: 10px auto !important; }
-            
+
+        .polaroid {
+          cursor: pointer;
+          transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .polaroid:hover,
+        .polaroid:active {
+          transform: translateY(-3px);
+          box-shadow:
+            0 15px 30px rgba(0,0,0,0.08),
+            0 4px 8px rgba(0,0,0,0.06);
+        }
+
             /* Asegurar que el layout se mantenga en la impresión */
             .layout-horizontal {
                 display: grid !important;
