@@ -84,6 +84,7 @@
         .dark-mode .days-grid div {
             color: #f2f2f7 !important; /* días más visibles */
             
+        }    
         .dark-mode .days-grid div.font-bold {
            color: #cfcfcf !important; /* encabezados L M M J V S D */
         }    
@@ -111,6 +112,25 @@
             color: #dcdcdc;
             opacity: 0.9;
        }
+        /* ===== DÍAS CALENDARIO ===== */
+        .days-grid .day-header {
+            font-weight: 700;
+            color: #b0b0b0;
+       }
+
+        .days-grid .day-number {
+            font-weight: 600;
+            color: #444;
+       }
+
+        /* Modo oscuro */
+       .dark-mode .days-grid .day-header {
+           color: #cfcfcf;
+       }
+
+       .dark-mode .days-grid .day-number {
+           color: #f2f2f7;
+      }
             
     </style>
 </head>
@@ -201,12 +221,24 @@
 
         function crearDias(y,m){
             let f=new Date(y,m,1).getDay();
-            let start=(f===0)?6:f-1;
-            let total=new Date(y,m+1,0).getDate();
-            let h='<div class="font-bold text-gray-300">L</div><div class="font-bold text-gray-300">M</div><div class="font-bold text-gray-300">M</div><div class="font-bold text-gray-300">J</div><div class="font-bold text-gray-300">V</div><div class="font-bold text-gray-300">S</div><div class="font-bold text-gray-300">D</div>';
-            for(let i=0;i<start;i++) h+='<div></div>';
-            for(let d=1;d<=total;d++) h+=`<div class="py-1 font-bold">${d}</div>`;
-            return h;
+            let start = (f === 0) ? 6 : f - 1;
+            let total = new Date(y,m+1,0).getDate();
+            
+            let h = `
+                <div class="day-header">L</div>
+                <div class="day-header">M</div>
+                <div class="day-header">M</div>
+                <div class="day-header">J</div>
+                <div class="day-header">V</div>
+                <div class="day-header">S</div>
+                <div class="day-header">D</div>
+            ;
+            
+            for(let i=0;i<start;i++) h += '<div></div>';
+            for(let d=1; d<=total; d++) {
+               h += `<div class="day-number">${d}</div>`;
+    }
+        return h;
         }
 
         document.getElementById('files').onchange=(e)=>{
