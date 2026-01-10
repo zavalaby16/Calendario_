@@ -69,12 +69,17 @@
         /* Modo oscuro */
         .dark-mode {
             background-color: #1a1a1a;
-            color: #f2f2f7;
+            color: #f2f2f7; /* texto general */
         }
         .dark-mode .polaroid {
             background-color: linear-gradient(145deg, #2a2a2a, #333333);
             box-shadow: 0 6px 15px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.15);
+            color: #f2f2f7; /* texto dentro de las tarjetas */
         }
+        .dark-mode .polaroid div {
+            color: #ddd; /* días de la cuadrícula en claro */
+        } 
+        
         .dark-mode .photo-area {
             background: #444;
         }
