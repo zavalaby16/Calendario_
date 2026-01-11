@@ -1,303 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Polaroid Calendar Studio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polaroid Calendar Studio</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --accent-color: #000000;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background-color: #f2f2f7;
-            color: #111;
-            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .dark-mode {
-            background-color: #0a0a0a;
-            color: #f2f2f7;
-        }
-
-        /* Realist Polaroid Effect */
-        .polaroid {
-            background: #ffffff;
-            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
-            padding: 16px 16px 24px 16px;
-            border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 10px;
-            display: inline-block;
-            vertical-align: top;
-            color: #111; /* Default text for polaroid */
-        }
-
-        .dark-mode .polaroid {
-            background-color: #1a1a1a;
-            background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            color: white;
-        }
-
-        .mes-titulo {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-weight: 900;
-            line-height: 1;
-            margin-top: 12px;
-        }
-
-        .photo-area {
-            width: 100%;
-            aspect-ratio: 1/1;
-            background: #e5e5ea;
-            overflow: hidden;
-            border-radius: 2px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .photo-area img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .days-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.65rem;
-        }
-
-        .day-header {
-            font-weight: 800;
-            color: #ccc;
-            text-transform: uppercase;
-            font-size: 0.55rem;
-            padding-bottom: 4px;
-        }
-
-        .day-number {
-            font-weight: 600;
-            padding: 2px 0;
-        }
-
-        .marca {
-            text-align: center;
-            margin-top: 14px;
-            padding-top: 8px;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            font-size: 9px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0.6;
-        }
-
-        .dark-mode .marca { border-color: rgba(255,255,255,0.1); }
-
-        /* Layouts */
-        .layout-horizontal {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white !important; }
-            .polaroid { 
-                box-shadow: none !important; 
-                border: 1px solid #eee !important; 
-                margin: 10px !important;
-                background: white !important;
-                color: black !important;
-            }
-            /* 🔥 FORZAR VISIBILIDAD DE DÍAS */
-.days-grid {
-    color: #111;
+<style>
+:root{
+  --day-color:#000;
 }
-            .days-grid .day-number {
-                color: #111;
-                opacity: 1;
-            }
-            /* 🌙 Modo oscuro: forzar blanco real */
-            .dark-mode .days-grid {
-                color: #f5f5f7 !important;
-                }
-            .dark-mode .days-grid .day-number {
-                color: #f5f5f7 !important;
-                opacity: 1 !important;
-                }
-        /* Encabezados de días (L M X...) */
-            .dark-mode .day-header {
-                color: #b5b5b5 !important;
-            }
-        }
-    </style>
+
+body{
+  font-family:'Inter',sans-serif;
+  background:#f2f2f7;
+  color:#111;
+}
+
+.dark-mode{
+  background:#0a0a0a;
+  color:#f2f2f7;
+}
+
+.polaroid{
+  background:#fff;
+  padding:16px 16px 24px;
+  margin:10px;
+  width:280px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  color:#111;
+}
+
+.dark-mode .polaroid{
+  background:#1a1a1a;
+  color:#fff;
+}
+
+.photo-area{
+  aspect-ratio:1/1;
+  background:#ddd;
+  overflow:hidden;
+}
+
+.photo-area img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.mes-titulo{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-weight:900;
+  margin-top:10px;
+}
+
+.days-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:2px;
+  text-align:center;
+  margin-top:8px;
+  font-size:.65rem;
+}
+
+.day-header{
+  font-weight:700;
+  font-size:.55rem;
+  color:#aaa;
+}
+
+.day-number{
+  font-weight:600;
+  color:var(--day-color);
+  opacity:1;
+}
+
+.marca{
+  text-align:center;
+  margin-top:12px;
+  padding-top:6px;
+  border-top:1px solid rgba(0,0,0,.1);
+  font-size:9px;
+  letter-spacing:1px;
+  opacity:.7;
+}
+
+.dark-mode .marca{
+  border-color:rgba(255,255,255,.2);
+}
+</style>
 </head>
+
 <body>
 
-<div class="no-print bg-white dark:bg-zinc-900 shadow-xl p-6 border-b border-gray-200 dark:border-zinc-800 sticky top-0 z-50 transition-colors">
-    <div class="max-w-4xl mx-auto">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-xl font-black tracking-tighter">POLAROID STUDIO</h1>
-                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Editor de Calendarios</p>
-            </div>
-            
-            <div class="flex flex-wrap gap-2 items-center">
-                <button id="toggle-theme" class="p-2 bg-gray-100 dark:bg-zinc-800 rounded-lg text-sm hover:scale-105 transition-transform">
-                    🌓 Modo
-                </button>
-                <button onclick="window.print()" class="bg-black text-white dark:bg-white dark:text-black px-6 py-2 rounded-lg font-bold text-sm shadow-lg hover:opacity-80 transition-opacity">
-                    EXPORTAR PDF
-                </button>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-6">
-            <div class="col-span-2">
-                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Marca / Firma</label>
-                <input id="brand" placeholder="Nombre del estudio" class="w-full p-2 bg-gray-50 dark:bg-zinc-800 border-none rounded-md outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div>
-                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Año</label>
-                <input type="number" id="year" value="2025" class="w-full p-2 bg-gray-50 dark:bg-zinc-800 border-none rounded-md outline-none">
-            </div>
-            <div>
-                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Color</label>
-                <input type="color" id="color" value="#000000" class="w-full h-10 p-1 bg-gray-50 dark:bg-zinc-800 border-none rounded-md cursor-pointer">
-            </div>
-            <div>
-                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Orientación</label>
-                <select id="orientation" class="w-full p-2 bg-gray-50 dark:bg-zinc-800 border-none rounded-md outline-none text-xs">
-                    <option value="vertical">Vertical</option>
-                    <option value="horizontal">Horizontal</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            <div>
-                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Tamaño Tarjeta</label>
-                <input type="range" id="size" min="150" max="450" value="280" class="w-full h-2 bg-gray-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer">
-            </div>
-            <div>
-                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Cargar 12 fotos</label>
-                <input type="file" id="photoLoader" accept="image/*" multiple class="text-xs text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:bg-zinc-100 dark:file:bg-zinc-800 file:text-zinc-700 dark:file:text-zinc-300">
-            </div>
-        </div>
-    </div>
+<div class="p-4 flex gap-2 items-center justify-center">
+  <input id="brand" placeholder="Nombre del estudio" class="border p-1 text-xs">
+  <input id="year" type="number" value="2025" class="border p-1 text-xs w-20">
+  <input id="color" type="color" value="#000000">
+  <button id="toggle" class="px-2 py-1 bg-black text-white text-xs">Modo</button>
 </div>
 
-<div id="grid" class="p-4 flex flex-wrap justify-center items-start transition-all"></div>
+<div id="grid" class="flex flex-wrap justify-center"></div>
 
 <script>
-    // Referencias seguras al DOM
-    const DOM = {
-        grid: document.getElementById('grid'),
-        year: document.getElementById('year'),
-        brand: document.getElementById('brand'),
-        color: document.getElementById('color'),
-        size: document.getElementById('size'),
-        orientation: document.getElementById('orientation'),
-        photoLoader: document.getElementById('photoLoader'),
-        themeBtn: document.getElementById('toggle-theme')
-    };
+const grid=document.getElementById("grid");
+const brand=document.getElementById("brand");
+const year=document.getElementById("year");
+const color=document.getElementById("color");
+const toggle=document.getElementById("toggle");
 
-    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-    let fotos = Array(12).fill("https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400");
+const meses=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 
-    function crearDias(y, m) {
-        const d = new Date(y, m, 1).getDay();
-        const start = (d === 0) ? 6 : d - 1;
-        const total = new Date(y, m + 1, 0).getDate();
+function crearDias(y,m){
+  const d=new Date(y,m,1).getDay();
+  const start=d===0?6:d-1;
+  const total=new Date(y,m+1,0).getDate();
 
-        let h = ["L","M","X","J","V","S","D"]
-            .map(dia => `<div class="day-header">${dia}</div>`)
-            .join("");
-        
-        for (let i = 0; i < start; i++) h += "<div></div>";
-        for (let d = 1; d <= total; d++) {
-            h += ` <div class="day-number" >${d}</div>`;    
-        }
-        
-        return h;
-    }
+  let h=["L","M","X","J","V","S","D"].map(x=>`<div class="day-header">${x}</div>`).join("");
+  for(let i=0;i<start;i++)h+="<div></div>";
+  for(let i=1;i<=total;i++){
+    h+=`<div class="day-number">${i}</div>`;
+  }
+  return h;
+}
 
-    function render() {
-        const y = DOM.year.value;
-        const b = DOM.brand.value || "Studio Design";
-        const w = DOM.size.value;
-        const color = DOM.color.value;
-        const layout = DOM.orientation.value;
-        
-        // Detección directa de la clase en el body
-        const isDark = document.body.classList.contains('dark-mode');
+function render(){
+  const isDark=document.body.classList.contains("dark-mode");
+  const c=color.value.toLowerCase()==="#000000" && isDark ? "#ffffff" : color.value;
+  document.documentElement.style.setProperty("--day-color",c);
 
-        // Si es negro (#000000) y estamos en modo oscuro, forzamos blanco para los números
-        const gridColor = (isDark && (color === "#000000" || color.toLowerCase() === "#000")) ? "#ffffff" : color;
+  grid.innerHTML="";
+  meses.forEach((m,i)=>{
+    const card=document.createElement("div");
+    card.className="polaroid";
+    card.innerHTML=`
+      <div class="photo-area"></div>
+      <div class="mes-titulo" style="color:${color.value}">${m}</div>
+      <div class="text-xs opacity-50">${year.value}</div>
+      <div class="days-grid">${crearDias(year.value,i)}</div>
+      <div class="marca" style="color:${color.value}">${brand.value||"Studio Design"}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
 
-        DOM.grid.className = (layout === 'horizontal') ? "p-4 layout-horizontal" : "p-4 flex flex-wrap justify-center items-start";
-        DOM.grid.innerHTML = "";
+toggle.onclick=()=>{
+  document.body.classList.toggle("dark-mode");
+  render();
+};
 
-        meses.forEach((m, i) => {
-            const card = document.createElement("div");
-            card.className = "polaroid";
-            card.style.width = w + "px";
-            
-            const tituloSize = Math.max(18, w / 10);
-            const numeroSize = Math.max(8, w / 25);
-
-            card.innerHTML = `
-                <div class="photo-area"><img src="${fotos[i]}"></div>
-                <div class="mes-titulo" style="color: ${color}; font-size: ${tituloSize}px;">${m}</div>
-                <div style="font-size: ${numeroSize}px; font-weight: 700; opacity: 0.4;">${y}</div>
-                <div class="days-grid" style="color: ${gridColor}">
-                    ${crearDias(y, i)}
-                </div>
-                <div class="marca" style="color: ${color}">${b}</div>
-            `;
-            DOM.grid.appendChild(card);
-        });
-    }
-
-    // Eventos
-    DOM.themeBtn.onclick = () => {
-        document.body.classList.toggle("dark-mode");
-        // Forzamos el renderizado para que la lógica de color se aplique al instante
-        render(); 
-    };
-    
-    [DOM.year, DOM.brand, DOM.color, DOM.orientation, DOM.size].forEach(el => {
-        el.oninput = render;
-        el.onchange = render;
-    });
-
-    DOM.photoLoader.onchange = (e) => {
-        const files = Array.from(e.target.files).slice(0, 12);
-        files.forEach((file, i) => {
-            const reader = new FileReader();
-            reader.onload = (ev) => {
-                fotos[i] = ev.target.result;
-                render();
-            };
-            reader.readAsDataURL(file);
-        });
-    };
-
-    // Inicialización
-    render();
+[brand,year,color].forEach(e=>e.oninput=render);
+render();
 </script>
+
 </body>
 </html>
