@@ -122,18 +122,7 @@
                 background: white !important;
                 color: black !important;
             }
-        }
-        /* 🔢 Números del calendario */
-            .day-number {
-                color: #111;
-                opacity: 0.85;
-            }
-        
-        /* 🌙 Modo oscuro: números visibles */
-        .dark-mode .day-number {
-            color: #f2f2f7 !important;
-            opacity: 1 !important;
-        }
+         }
     </style>
 </head>
 <body>
@@ -214,9 +203,27 @@
         const start = (d === 0) ? 6 : d - 1;
         const total = new Date(y, m + 1, 0).getDate();
 
-        let h = ["L","M","X","J","V","S","D"].map(dia => `<div class="day-header">${dia}</div>`).join("");
+        const isDark = document.body.classList.contains("dark-mode");
+        const numberColor = isDark ? "#f5f5f7" : "#111";
+        const headerColor = isDark ? "#aaa" : "#999";
+
+        let h = ["L","M","X","J","V","S","D"]
+            .map(dia => `<div class="day-header">${dia}</div>`)
+            .join("");
+        
         for (let i = 0; i < start; i++) h += "<div></div>";
-        for (let d = 1; d <= total; d++) h += `<div class="day-number">${d}</div>`;
+        for (let d = 1; d <= total; d++) {
+            h += `
+            <div class="day-number" 
+            style="
+            color:${numberColor}; 
+            font-weight:600;
+            background:${isDark?'rgba(255,255,255,0.06)' : 'transparent'};
+            border-radius:4px;
+          ">
+          ${d}
+          </div>`;
+            }
         return h;
     }
 
