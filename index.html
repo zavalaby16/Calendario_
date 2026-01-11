@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#000000">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Calendario Polaroid</title>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#121212">
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
         body {
             font-family: 'Inter', system-ui, sans-serif;
@@ -27,19 +30,15 @@
         }
 
         .polaroid {
-            background: linear-gradient(145deg, #ffffff, #f0f0f3); 
-            padding: 18px 18px 28px 18px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f3);
+            padding: 18px 18px 28px;
             border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);                 
-            break-inside: avoid;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
             transition: all 0.3s ease;
-            cursor: pointer;
         }
 
-        .polaroid:hover,
-        .polaroid:active {
+        .polaroid:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.08), 0 4px 8px rgba(0,0,0,0.06);
         }
 
         .layout-horizontal {
@@ -49,225 +48,160 @@
             margin: 0 auto;
         }
 
-        .photo-area { width: 100%; aspect-ratio: 1/1; background: #e0e0e0; overflow: hidden;border-radius: 8px; }
-        .photo-area img { width: 100%; height: 100%; object-fit: cover;transition: transform 0.3s ease; }
-        .photo-area img { transform: scale (1.05); }
-        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; font-size: 11px; text-align: center; margin-top: 12px; }
-
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white !important; }
-            .polaroid { box-shadow: none !important; border: 1px solid #eee !important; margin: 10px auto !important; }
-            .layout-horizontal {
-                display: grid !important;
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px !important;
-                max-width: none !important;
-            }
+        .photo-area {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #e0e0e0;
+            overflow: hidden;
+            border-radius: 8px;
         }
 
-        /* Modo oscuro */
+        .photo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .photo-area img:hover {
+            transform: scale(1.05);
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 3px;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        /* ===== DÍAS ===== */
+        .day-header {
+            font-weight: 700;
+            color: #999;
+        }
+
+        .day-number {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* ===== MARCA ===== */
+        .marca {
+            text-align: center;
+            margin-top: 16px;
+            padding-top: 8px;
+            border-top: 1px solid #e5e5e5;
+            font-size: 10px;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* ===== MODO OSCURO ===== */
         .dark-mode {
             background-color: #121212;
-            color: #f2f2f7; /* texto general */
+            color: #f2f2f7;
         }
+
         .dark-mode .polaroid {
             background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 3px 6px rgba(0,0,0,0.2);
-            color: #f2f2f7; /* texto d* marca centrada */entro de las tarjetas */
-            text-align: center; /* marca centrada */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
-        
-        .dark-mode .days-grid div {
-            color: #f2f2f7 !important; /* días más visibles */
-            
-        }    
-        .dark-mode .days-grid div.font-bold {
-           color: #cfcfcf !important; /* encabezados L M M J V S D */
-        }    
-        
+
+        .dark-mode .day-header {
+            color: #cfcfcf;
+        }
+
+        .dark-mode .day-number {
+            color: #ffffff;
+        }
+
+        .dark-mode .marca {
+            color: #dcdcdc;
+            border-color: #333;
+        }
+
         .dark-mode .photo-area {
             background: #333;
         }
-        
-        .dark-mode input,
-        .dark-mode select,
-        .dark-mode button {
-            background-color: #2a2a2a !important;
-            color: #f2f2f7 !important;
-            border-color: #555 !important;
-            caret-color: #f2f2f7;
+
+        .no-print {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 16px;
+            background: inherit;
         }
-        /* Marca siempre centrada y visible */
-        .polaroid .marca {
-            text-align: center;
-            margin: 0 auto;
-            width: 100%;
-       }
-        /* Marca en modo oscuro */
-        .dark-mode .polaroid .marca {
-            color: #dcdcdc;
-            opacity: 0.9;
-       }
-        /* ===== DÍAS CALENDARIO ===== */
-        .days-grid .day-header {
-            font-weight: 700;
-            color: #9a9a9a;
-       }
 
-        .days-grid .day-number {
-            font-weight: 600;
-            color: #333;
-       }
-
-        /* Modo oscuro */
-       .dark-mode .days-grid .day-header {
-           color: #cfcfcf;
-       }
-
-       .dark-mode .days-grid .day-number {
-           color: #f2f2f7;
-      }
-       .days-grid div {
-           min-height: 1.2em;
-      }
-
-          
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+            .polaroid { box-shadow: none; border: 1px solid #eee; }
+        }
     </style>
 </head>
+
 <body>
-    <div class="no-print p-6 shadow-sm sticky top-0 z-50">
-        <h1 class="font-black text-center mb-4">CALENDARIO POLAROID</h1>
-        <div class="space-y-3 max-w-2xl mx-auto">
-            <input type="text" id="brand" placeholder="Tu Marca" class="w-full p-3 bg-gray-100 rounded-xl text-base outline-none">
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <div>
-                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Año</label>
-                    <input type="number" id="year" value="2025" class="w-full p-3 bg-gray-100 rounded-xl text-base">
-                </div>
-                <div>
-                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Color</label>
-                    <input type="color" id="color" value="#000000" class="w-full h-12 rounded-xl bg-gray-100 p-1 border-none cursor-pointer">
-                </div>
-                <div>
-                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Orientación</label>
-                    <select id="orientation" class="w-full p-3 bg-gray-100 rounded-xl text-sm cursor-pointer">
-                        <option value="vertical">Vertical</option>
-                        <option value="horizontal">Horizontal</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Tamaño (Ancho)</label>
-                    <input type="range" id="size" min="150" max="450" value="280" class="w-full mt-4 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
-                    <div class="text-[9px] text-center text-gray-400 mt-1" id="size-label">280px</div>
-                </div>
-            </div>
+<div class="no-print">
+    <h1 style="text-align:center;font-weight:900;">CALENDARIO POLAROID</h1>
 
-            <div class="p-2 border-2 border-dashed border-gray-200 rounded-xl">
-                <label class="block text-[10px] text-gray-400 uppercase font-bold mb-1">Fotos (Selecciona 12)</label>
-                <input type="file" id="files" accept="image/*" multiple class="w-full text-xs">
-            </div>
+    <input id="brand" placeholder="Tu Marca">
+    <input type="number" id="year" value="2025">
+    <input type="color" id="color" value="#000000">
+    <select id="orientation">
+        <option value="vertical">Vertical</option>
+        <option value="horizontal">Horizontal</option>
+    </select>
+    <input type="range" id="size" min="150" max="450" value="280">
+    <button id="toggle-theme">Cambiar modo</button>
+</div>
 
-            <button onclick="window.print()" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition-colors">EXPORTAR A PDF</button>
-            <button id="toggle-theme" class="w-full bg-gray-600 text-white py-3 rounded-2xl font-bold shadow-lg hover:bg-gray-700 transition-colors mt-4">
-                Cambiar modo
-            </button>
-        </div>
-    </div>
+<div id="grid"></div>
 
-    <div id="grid" class="p-4"></div>
+<script>
+const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+let fotos = Array(12).fill("https://via.placeholder.com/400");
 
-    <script>
-        const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-        let fotos = Array(12).fill("https://via.placeholder.com/400");
-        
-        function render() {
-            const grid = document.getElementById('grid');
-            const y = document.getElementById('year').value || 2025;
-            const c = document.getElementById('color').value;
-            const b = document.getElementById('brand').value || "Handmade";
-            const orientacion = document.getElementById('orientation').value;
-            const width = document.getElementById('size').value;
+function crearDias(y, m) {
+    let f = new Date(y, m, 1).getDay();
+    let start = (f === 0) ? 6 : f - 1;
+    let total = new Date(y, m + 1, 0).getDate();
 
-            document.getElementById('size-label').textContent = width + 'px';
+    let h = ["L","M","M","J","V","S","D"].map(d=>`<div class="day-header">${d}</div>`).join("");
+    for (let i=0;i<start;i++) h += "<div></div>";
+    for (let d=1;d<=total;d++) h += `<div class="day-number">${d}</div>`;
+    return h;
+}
 
-            if (orientacion === 'horizontal') {
-                grid.classList.add('layout-horizontal');
-            } else {
-                grid.classList.remove('layout-horizontal');
-            }
+function render(){
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    const y = year.value;
+    const b = brand.value || "Handmade";
+    const w = size.value;
 
-            grid.innerHTML = '';
-            meses.forEach((m,i)=>{
-                const card = document.createElement('div');
-                card.className = 'polaroid';
-                card.style.width = width + 'px';
-                card.style.maxWidth = '100%';
+    meses.forEach((m,i)=>{
+        const card=document.createElement("div");
+        card.className="polaroid";
+        card.style.width=w+"px";
+        card.innerHTML=`
+            <div class="photo-area"><img src="${fotos[i]}"></div>
+            <div class="mes-titulo">${m}</div>
+            <div>${y}</div>
+            <div class="days-grid">${crearDias(y,i)}</div>
+            <div class="marca">${b}</div>`;
+        grid.appendChild(card);
+    });
+}
 
-                const titleSize = Math.max(16, width/11);
-                const subtitleSize = Math.max(8, width/23);
-                const daySize = Math.max(6, width/28);
+toggle-theme.onclick=()=>document.body.classList.toggle("dark-mode");
+year.oninput=brand.oninput=color.onchange=orientation.onchange=size.oninput=render;
+render();
 
-                card.innerHTML = `
-                    <div class="photo-area"><img src="${fotos[i]}"></div>
-                    <div style="color:${c}; font-size:${titleSize}px; font-weight:900; margin-top:15px; line-height:1;">${m}</div>
-                    <div style="font-size:${subtitleSize}px;" class="text-gray-400 mb-2">${y}</div>
-                    <div class="days-grid" style="font-size:${daySize}px;">${crearDias(y,i)}</div>
-                    <div class="marca mt-4 pt-2 border-t text-center text-[10px] text-gray-400 italic">${b}</div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function crearDias(y, m) {
-            let f = new Date(y, m, 1).getDay();
-            let start = (f === 0) ? 6 : f - 1;
-            let total = new Date(y, m + 1, 0).getDate();
-            
-            let h = `
-                <div class="day-header">L</div>
-                <div class="day-header">M</div>
-                <div class="day-header">M</div>
-                <div class="day-header">J</div>
-                <div class="day-header">V</div>
-                <div class="day-header">S</div>
-                <div class="day-header">D</div>
-           `;
-            
-            for (let i = 0; i < start; i++) h += '<div></div>';
-            for (let d = 1; d <= total; d++) {
-               h += `<div class="day-number">${d}</div>`;
-            }
-        return h;
-        }
-
-        document.getElementById('files').onchange=(e)=>{
-            const fileList=Array.from(e.target.files).slice(0,12);
-            fileList.forEach((file,i)=>{
-                const reader=new FileReader();
-                reader.onload=(ev)=>{fotos[i]=ev.target.result; render();};
-                reader.readAsDataURL(file);
-            });
-        };
-
-        document.getElementById('year').oninput=render;
-        document.getElementById('brand').oninput=render;
-        document.getElementById('color').onchange=render;
-        document.getElementById('orientation').onchange=render;
-        document.getElementById('size').oninput=render;
-
-        render();
-
-        if('serviceWorker' in navigator){
-            navigator.serviceWorker.register('sw.js');
-        }
-        // if('serviceWorker' in navigator){
-        // //    navigator.serviceWorker.register('sw.js');
-        // // }
-
-        const toggle=document.getElementById('toggle-theme');
-        toggle.onclick=()=>{document.body.classList.toggle('dark-mode');};
-    </script>
+/* Service Worker desactivado para desarrollo */
+// if('serviceWorker' in navigator){
+//   navigator.serviceWorker.register('sw.js');
+// }
+</script>
 </body>
 </html>
