@@ -25,7 +25,7 @@
             color: #f2f2f7;
         }
 
-        /* Efecto Polaroid Realista */
+        /* Realist Polaroid Effect */
         .polaroid {
             background: #ffffff;
             background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
@@ -36,6 +36,7 @@
             margin: 10px;
             display: inline-block;
             vertical-align: top;
+            color: #111; /* Default text for polaroid */
         }
 
         .dark-mode .polaroid {
@@ -118,6 +119,8 @@
                 box-shadow: none !important; 
                 border: 1px solid #eee !important; 
                 margin: 10px !important;
+                background: white !important;
+                color: black !important;
             }
         }
     </style>
@@ -180,7 +183,7 @@
 <div id="grid" class="p-4 flex flex-wrap justify-center items-start transition-all"></div>
 
 <script>
-    // Referencias seguras al DOM
+    // Safe DOM References
     const DOM = {
         grid: document.getElementById('grid'),
         year: document.getElementById('year'),
@@ -212,6 +215,11 @@
         const w = DOM.size.value;
         const color = DOM.color.value;
         const layout = DOM.orientation.value;
+        const isDark = document.body.classList.contains('dark-mode');
+
+        // Text color logic for dark mode visibility
+        // If in dark mode and selected color is black/very dark, use white for grid numbers
+        const gridColor = (isDark && color === "#000000") ? "#ffffff" : color;
 
         DOM.grid.className = (layout === 'horizontal') ? "p-4 layout-horizontal" : "p-4 flex flex-wrap justify-center items-start";
         DOM.grid.innerHTML = "";
@@ -221,7 +229,7 @@
             card.className = "polaroid";
             card.style.width = w + "px";
             
-            // Ajustar fuentes proporcionalmente al ancho de la tarjeta
+            // Adjust fonts proportionally
             const tituloSize = Math.max(18, w / 10);
             const numeroSize = Math.max(8, w / 25);
 
@@ -229,15 +237,18 @@
                 <div class="photo-area"><img src="${fotos[i]}"></div>
                 <div class="mes-titulo" style="color: ${color}; font-size: ${tituloSize}px;">${m}</div>
                 <div style="font-size: ${numeroSize}px; font-weight: 700; opacity: 0.4;">${y}</div>
-                <div class="days-grid" style="color: ${color}">${crearDias(y, i)}</div>
+                <div class="days-grid" style="color: ${gridColor}">${crearDias(y, i)}</div>
                 <div class="marca" style="color: ${color}">${b}</div>
             `;
             DOM.grid.appendChild(card);
         });
     }
 
-    // Eventos
-    DOM.themeBtn.onclick = () => document.body.classList.toggle("dark-mode");
+    // Events
+    DOM.themeBtn.onclick = () => {
+        document.body.classList.toggle("dark-mode");
+        render(); // Re-render to update dynamic colors
+    };
     
     [DOM.year, DOM.brand, DOM.color, DOM.orientation, DOM.size].forEach(el => {
         el.oninput = render;
@@ -255,7 +266,7 @@
         });
     };
 
-    // Inicialización
+    // Init
     render();
 </script>
 </body>
