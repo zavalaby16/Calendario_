@@ -122,7 +122,27 @@
                 background: white !important;
                 color: black !important;
             }
-         }
+            /* 🔥 FORZAR VISIBILIDAD DE DÍAS */
+.days-grid {
+    color: #111;
+}
+            .days-grid .day-number {
+                color: #111;
+                opacity: 1;
+            }
+            /* 🌙 Modo oscuro: forzar blanco real */
+            .dark-mode .days-grid {
+                color: #f5f5f7 !important;
+                }
+            .dark-mode .days-grid .day-number {
+                color: #f5f5f7 !important;
+                opacity: 1 !important;
+                }
+        /* Encabezados de días (L M X...) */
+            .dark-mode .day-header {
+                color: #b5b5b5 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -203,27 +223,15 @@
         const start = (d === 0) ? 6 : d - 1;
         const total = new Date(y, m + 1, 0).getDate();
 
-        const isDark = document.body.classList.contains("dark-mode");
-        const numberColor = isDark ? "#f5f5f7" : "#111";
-        const headerColor = isDark ? "#aaa" : "#999";
-
         let h = ["L","M","X","J","V","S","D"]
             .map(dia => `<div class="day-header">${dia}</div>`)
             .join("");
         
         for (let i = 0; i < start; i++) h += "<div></div>";
         for (let d = 1; d <= total; d++) {
-            h += `
-            <div class="day-number" 
-            style="
-            color:${numberColor}; 
-            font-weight:600;
-            background:${isDark?'rgba(255,255,255,0.06)' : 'transparent'};
-            border-radius:4px;
-          ">
-          ${d}
-          </div>`;
-            }
+            h += ` <div class="day-number" >${d}</div>`;    
+        }
+        
         return h;
     }
 
@@ -255,7 +263,9 @@
                 <div class="photo-area"><img src="${fotos[i]}"></div>
                 <div class="mes-titulo" style="color: ${color}; font-size: ${tituloSize}px;">${m}</div>
                 <div style="font-size: ${numeroSize}px; font-weight: 700; opacity: 0.4;">${y}</div>
-                <div class="days-grid">${crearDias(y, i)}</div>
+                <div class="days-grid" style="color: ${gridColor}">
+                    ${crearDias(y, i)}
+                </div>
                 <div class="marca" style="color: ${color}">${b}</div>
             `;
             DOM.grid.appendChild(card);
