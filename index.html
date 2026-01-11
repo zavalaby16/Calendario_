@@ -9,151 +9,134 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --day-color:#000;
-}
-
 body{
-  font-family:'Inter',sans-serif;
-  background:#f2f2f7;
-  color:#111;
+    font-family:'Inter',sans-serif;
+    background:#f2f2f7;
+    color:#111;
 }
-
 .dark-mode{
-  background:#0a0a0a;
-  color:#f2f2f7;
+    background:#0a0a0a;
+    color:#f2f2f7;
 }
-
 .polaroid{
-  background:#fff;
-  padding:16px 16px 24px;
-  margin:10px;
-  width:280px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-  color:#111;
+    background:#fff;
+    padding:16px 16px 24px;
+    width:280px;
+    margin:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
-
 .dark-mode .polaroid{
-  background:#1a1a1a;
-  color:#fff;
+    background:#1a1a1a;
+    color:white;
 }
-
 .photo-area{
-  aspect-ratio:1/1;
-  background:#ddd;
-  overflow:hidden;
+    aspect-ratio:1/1;
+    background:#e5e5ea;
+    overflow:hidden;
 }
-
 .photo-area img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
-
-.mes-titulo{
-  font-family:'Playfair Display',serif;
-  font-style:italic;
-  font-weight:900;
-  margin-top:10px;
+.mes{
+    font-family:'Playfair Display',serif;
+    font-size:26px;
+    font-style:italic;
+    margin-top:10px;
 }
-
-.days-grid{
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:2px;
-  text-align:center;
-  margin-top:8px;
-  font-size:.65rem;
+.days{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:2px;
+    margin-top:8px;
+    font-size:10px;
+    text-align:center;
 }
-
-.day-header{
-  font-weight:700;
-  font-size:.55rem;
-  color:#aaa;
-}
-
-.day-number{
-  font-weight:600;
-  color:var(--day-color);
-  opacity:1;
-}
-
+.day-header{opacity:.5;font-weight:700}
+.day{font-weight:600}
 .marca{
-  text-align:center;
-  margin-top:12px;
-  padding-top:6px;
-  border-top:1px solid rgba(0,0,0,.1);
-  font-size:9px;
-  letter-spacing:1px;
-  opacity:.7;
-}
-
-.dark-mode .marca{
-  border-color:rgba(255,255,255,.2);
+    margin-top:10px;
+    font-size:9px;
+    text-align:center;
+    opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="p-4 flex gap-2 items-center justify-center">
-  <input id="brand" placeholder="Nombre del estudio" class="border p-1 text-xs">
-  <input id="year" type="number" value="2025" class="border p-1 text-xs w-20">
-  <input id="color" type="color" value="#000000">
-  <button id="toggle" class="px-2 py-1 bg-black text-white text-xs">Modo</button>
+<!-- CONTROLES -->
+<div class="p-4 bg-white shadow sticky top-0 z-50">
+<div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+
+<input id="brand" placeholder="Nombre del estudio" class="p-2 border rounded">
+<input id="year" type="number" value="2025" class="p-2 border rounded">
+<input id="size" type="range" min="200" max="420" value="280">
+<select id="orientation" class="p-2 border rounded">
+<option value="vertical">Vertical</option>
+<option value="horizontal">Horizontal</option>
+</select>
+<input id="photos" type="file" accept="image/*" multiple>
+
+<button id="theme" class="col-span-2 bg-black text-white rounded p-2">Modo oscuro</button>
+
+</div>
 </div>
 
-<div id="grid" class="flex flex-wrap justify-center"></div>
+<!-- CALENDARIO -->
+<div id="grid" class="flex flex-wrap justify-center p-4"></div>
 
 <script>
-const grid=document.getElementById("grid");
-const brand=document.getElementById("brand");
-const year=document.getElementById("year");
-const color=document.getElementById("color");
-const toggle=document.getElementById("toggle");
+const grid=document.getElementById('grid')
+const meses=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+let fotos=Array(12).fill("https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400")
 
-const meses=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-
-function crearDias(y,m){
-  const d=new Date(y,m,1).getDay();
-  const start=d===0?6:d-1;
-  const total=new Date(y,m+1,0).getDate();
-
-  let h=["L","M","X","J","V","S","D"].map(x=>`<div class="day-header">${x}</div>`).join("");
-  for(let i=0;i<start;i++)h+="<div></div>";
-  for(let i=1;i<=total;i++){
-    h+=`<div class="day-number">${i}</div>`;
-  }
-  return h;
+function dias(y,m){
+let d=new Date(y,m,1).getDay()
+let start=d===0?6:d-1
+let total=new Date(y,m+1,0).getDate()
+let h=["L","M","X","J","V","S","D"].map(x=>`<div class="day-header">${x}</div>`).join("")
+for(let i=0;i<start;i++)h+="<div></div>"
+for(let i=1;i<=total;i++)h+=`<div class="day">${i}</div>`
+return h
 }
 
 function render(){
-  const isDark=document.body.classList.contains("dark-mode");
-  const c=color.value.toLowerCase()==="#000000" && isDark ? "#ffffff" : color.value;
-  document.documentElement.style.setProperty("--day-color",c);
+grid.innerHTML=""
+const y=year.value
+const b=brand.value||"Studio Design"
+const w=size.value
+grid.className=orientation.value==="horizontal"?"grid grid-cols-2 gap-4 p-4":"flex flex-wrap justify-center p-4"
 
-  grid.innerHTML="";
-  meses.forEach((m,i)=>{
-    const card=document.createElement("div");
-    card.className="polaroid";
-    card.innerHTML=`
-      <div class="photo-area"></div>
-      <div class="mes-titulo" style="color:${color.value}">${m}</div>
-      <div class="text-xs opacity-50">${year.value}</div>
-      <div class="days-grid">${crearDias(year.value,i)}</div>
-      <div class="marca" style="color:${color.value}">${brand.value||"Studio Design"}</div>
-    `;
-    grid.appendChild(card);
-  });
+meses.forEach((m,i)=>{
+const c=document.createElement('div')
+c.className="polaroid"
+c.style.width=w+"px"
+c.innerHTML=`
+<div class="photo-area"><img src="${fotos[i]}"></div>
+<div class="mes">${m}</div>
+<div class="text-xs opacity-50">${y}</div>
+<div class="days">${dias(y,i)}</div>
+<div class="marca">${b}</div>`
+grid.appendChild(c)
+})
 }
 
-toggle.onclick=()=>{
-  document.body.classList.toggle("dark-mode");
-  render();
-};
+photos.onchange=e=>{
+[...e.target.files].slice(0,12).forEach((f,i)=>{
+const r=new FileReader()
+r.onload=ev=>{fotos[i]=ev.target.result;render()}
+r.readAsDataURL(f)
+})
+}
 
-[brand,year,color].forEach(e=>e.oninput=render);
-render();
+theme.onclick=()=>{
+document.body.classList.toggle('dark-mode')
+}
+
+document.querySelectorAll('#brand,#year,#size,#orientation').forEach(i=>i.oninput=render)
+render()
 </script>
 
 </body>
