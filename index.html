@@ -183,7 +183,7 @@
 <div id="grid" class="p-4 flex flex-wrap justify-center items-start transition-all"></div>
 
 <script>
-    // Safe DOM References
+    // Referencias seguras al DOM
     const DOM = {
         grid: document.getElementById('grid'),
         year: document.getElementById('year'),
@@ -215,11 +215,12 @@
         const w = DOM.size.value;
         const color = DOM.color.value;
         const layout = DOM.orientation.value;
+        
+        // Detección directa de la clase en el body
         const isDark = document.body.classList.contains('dark-mode');
 
-        // Text color logic for dark mode visibility
-        // If in dark mode and selected color is black/very dark, use white for grid numbers
-        const gridColor = (isDark && color === "#000000") ? "#ffffff" : color;
+        // Si es negro (#000000) y estamos en modo oscuro, forzamos blanco para los números
+        const gridColor = (isDark && (color === "#000000" || color.toLowerCase() === "#000")) ? "#ffffff" : color;
 
         DOM.grid.className = (layout === 'horizontal') ? "p-4 layout-horizontal" : "p-4 flex flex-wrap justify-center items-start";
         DOM.grid.innerHTML = "";
@@ -229,7 +230,6 @@
             card.className = "polaroid";
             card.style.width = w + "px";
             
-            // Adjust fonts proportionally
             const tituloSize = Math.max(18, w / 10);
             const numeroSize = Math.max(8, w / 25);
 
@@ -244,14 +244,16 @@
         });
     }
 
-    // Events
+    // Eventos
     DOM.themeBtn.onclick = () => {
         document.body.classList.toggle("dark-mode");
-        render(); // Re-render to update dynamic colors
+        // Forzamos el renderizado para que la lógica de color se aplique al instante
+        render(); 
     };
     
     [DOM.year, DOM.brand, DOM.color, DOM.orientation, DOM.size].forEach(el => {
         el.oninput = render;
+        el.onchange = render;
     });
 
     DOM.photoLoader.onchange = (e) => {
@@ -266,7 +268,7 @@
         });
     };
 
-    // Init
+    // Inicialización
     render();
 </script>
 </body>
