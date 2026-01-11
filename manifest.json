@@ -1,10 +1,10 @@
 {
   "name": "Calendario Polaroid",
   "short_name": "Calendario",
-  "start_url": ".",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#f2f2f7",
+  "theme_color": "#111111",
   "orientation": "portrait",
   "icons": [
     {
