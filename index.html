@@ -219,10 +219,10 @@
             });
         }
 
-        function crearDias(y,m){
-            let f=new Date(y,m,1).getDay();
+        function crearDias(y, m) {
+            let f = new Date(y, m, 1).getDay();
             let start = (f === 0) ? 6 : f - 1;
-            let total = new Date(y,m+1,0).getDate();
+            let total = new Date(y, m + 1, 0).getDate();
             
             let h = `
                 <div class="day-header">L</div>
@@ -232,12 +232,12 @@
                 <div class="day-header">V</div>
                 <div class="day-header">S</div>
                 <div class="day-header">D</div>
-            ;
+           `;
             
-            for(let i=0;i<start;i++) h += '<div></div>';
-            for(let d=1; d<=total; d++) {
+            for (let i = 0; i < start; i++) h += '<div></div>';
+            for (let d = 1; d <= total; d++) {
                h += `<div class="day-number">${d}</div>`;
-    }
+            }
         return h;
         }
 
