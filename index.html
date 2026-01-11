@@ -123,6 +123,17 @@
                 color: black !important;
             }
         }
+        /* 🔢 Números del calendario */
+            .day-number {
+                color: #111;
+                opacity: 0.85;
+            }
+        
+        /* 🌙 Modo oscuro: números visibles */
+        .dark-mode .day-number {
+            color: #f2f2f7;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -237,7 +248,7 @@
                 <div class="photo-area"><img src="${fotos[i]}"></div>
                 <div class="mes-titulo" style="color: ${color}; font-size: ${tituloSize}px;">${m}</div>
                 <div style="font-size: ${numeroSize}px; font-weight: 700; opacity: 0.4;">${y}</div>
-                <div class="days-grid" style="color: ${gridColor}">${crearDias(y, i)}</div>
+                <div class="days-grid">${crearDias(y, i)}</div>
                 <div class="marca" style="color: ${color}">${b}</div>
             `;
             DOM.grid.appendChild(card);
