@@ -77,9 +77,6 @@
             color: #f2f2f7; /* texto d* marca centrada */entro de las tarjetas */
             text-align: center; /* marca centrada */
         }
-        .dark-mode .polaroid div {
-            color: #f2f2f7; /* días de la cuadrícula en claro */
-        } 
         
         .dark-mode .days-grid div {
             color: #f2f2f7 !important; /* días más visibles */
@@ -115,12 +112,12 @@
         /* ===== DÍAS CALENDARIO ===== */
         .days-grid .day-header {
             font-weight: 700;
-            color: #b0b0b0;
+            color: #9a9a9a;
        }
 
         .days-grid .day-number {
             font-weight: 600;
-            color: #444;
+            color: #333;
        }
 
         /* Modo oscuro */
@@ -131,7 +128,11 @@
        .dark-mode .days-grid .day-number {
            color: #f2f2f7;
       }
-            
+       .days-grid div {
+           min-height: 1.2em;
+      }
+
+          
     </style>
 </head>
 <body>
