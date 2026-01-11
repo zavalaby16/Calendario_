@@ -3,44 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PRUEBA 123</title>
+    <title>Polaroid Calendar Studio</title>
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#121212">
-
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --accent-color: #000000;
+        }
+
         body {
             font-family: 'Inter', system-ui, sans-serif;
             background-color: #f2f2f7;
             color: #111;
-            transition: background 0.3s ease, color 0.3s ease;
+            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark-mode {
+            background-color: #0a0a0a;
+            color: #f2f2f7;
+        }
+
+        /* Efecto Polaroid Realista */
+        .polaroid {
+            background: #ffffff;
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+            padding: 16px 16px 24px 16px;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .dark-mode .polaroid {
+            background-color: #1a1a1a;
+            background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            color: white;
         }
 
         .mes-titulo {
             font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 900;
+            line-height: 1;
+            margin-top: 12px;
         }
 
-        #grid {
+        .photo-area {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: #e5e5ea;
+            overflow: hidden;
+            border-radius: 2px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .photo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .days-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-            padding: 16px;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.65rem;
         }
 
-        .polaroid {
-            background: linear-gradient(145deg, #ffffff, #f0f0f3);
-            padding: 18px 18px 28px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
-            transition: all 0.3s ease;
+        .day-header {
+            font-weight: 800;
+            color: #ccc;
+            text-transform: uppercase;
+            font-size: 0.55rem;
+            padding-bottom: 4px;
         }
 
-        .polaroid:hover {
-            transform: translateY(-3px);
+        .day-number {
+            font-weight: 600;
+            padding: 2px 0;
         }
 
+        .marca {
+            text-align: center;
+            margin-top: 14px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .dark-mode .marca { border-color: rgba(255,255,255,0.1); }
+
+        /* Layouts */
         .layout-horizontal {
             display: grid !important;
             grid-template-columns: repeat(2, 1fr);
@@ -48,160 +111,152 @@
             margin: 0 auto;
         }
 
-        .photo-area {
-            width: 100%;
-            aspect-ratio: 1/1;
-            background: #e0e0e0;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-
-        .photo-area img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .photo-area img:hover {
-            transform: scale(1.05);
-        }
-
-        .days-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 3px;
-            text-align: center;
-            margin-top: 12px;
-        }
-
-        /* ===== DÍAS ===== */
-        .day-header {
-            font-weight: 700;
-            color: #999;
-        }
-
-        .day-number {
-            font-weight: 600;
-            color: #333;
-        }
-
-        /* ===== MARCA ===== */
-        .marca {
-            text-align: center;
-            margin-top: 16px;
-            padding-top: 8px;
-            border-top: 1px solid #e5e5e5;
-            font-size: 10px;
-            color: #999;
-            font-style: italic;
-        }
-
-        /* ===== MODO OSCURO ===== */
-        .dark-mode {
-            background-color: #121212;
-            color: #f2f2f7;
-        }
-
-        .dark-mode .polaroid {
-            background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
-
-        .dark-mode .day-header {
-            color: #cfcfcf;
-        }
-
-        .dark-mode .day-number {
-            color: #ffffff;
-        }
-
-        .dark-mode .marca {
-            color: #dcdcdc;
-            border-color: #333;
-        }
-
-        .dark-mode .photo-area {
-            background: #333;
-        }
-
-        .no-print {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            padding: 16px;
-            background: inherit;
-        }
-
         @media print {
-            .no-print { display: none; }
-            body { background: white; }
-            .polaroid { box-shadow: none; border: 1px solid #eee; }
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .polaroid { 
+                box-shadow: none !important; 
+                border: 1px solid #eee !important; 
+                margin: 10px !important;
+            }
         }
     </style>
 </head>
-
 <body>
-<div class="no-print">
-    <h1 style="text-align:center;font-weight:900;">CALENDARIO POLAROID</h1>
 
-    <input id="brand" placeholder="Tu Marca">
-    <input type="number" id="year" value="2025">
-    <input type="color" id="color" value="#000000">
-    <select id="orientation">
-        <option value="vertical">Vertical</option>
-        <option value="horizontal">Horizontal</option>
-    </select>
-    <input type="range" id="size" min="150" max="450" value="280">
-    <button id="toggle-theme">Cambiar modo</button>
+<div class="no-print bg-white dark:bg-zinc-900 shadow-xl p-6 border-b border-gray-200 dark:border-zinc-800 sticky top-0 z-50 transition-colors">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-xl font-black tracking-tighter">POLAROID STUDIO</h1>
+                <p class="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Editor de Calendarios</p>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 items-center">
+                <button id="toggle-theme" class="p-2 bg-gray-100 dark:bg-zinc-800 rounded-lg text-sm hover:scale-105 transition-transform">
+                    🌓 Modo
+                </button>
+                <button onclick="window.print()" class="bg-black text-white dark:bg-white dark:text-black px-6 py-2 rounded-lg font-bold text-sm shadow-lg hover:opacity-80 transition-opacity">
+                    EXPORTAR PDF
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-6">
+            <div class="col-span-2">
+                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Marca / Firma</label>
+                <input id="brand" placeholder="Nombre del estudio" class="w-full p-2 bg-gray-50 dark:bg-zinc-800 border-none rounded-md outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Año</label>
+                <input type="number" id="year" value="2025" class="w-full p-2 bg-gray-50 dark:bg-zinc-800 border-none rounded-md outline-none">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Color</label>
+                <input type="color" id="color" value="#000000" class="w-full h-10 p-1 bg-gray-50 dark:bg-zinc-800 border-none rounded-md cursor-pointer">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Orientación</label>
+                <select id="orientation" class="w-full p-2 bg-gray-50 dark:bg-zinc-800 border-none rounded-md outline-none text-xs">
+                    <option value="vertical">Vertical</option>
+                    <option value="horizontal">Horizontal</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div>
+                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Tamaño Tarjeta</label>
+                <input type="range" id="size" min="150" max="450" value="280" class="w-full h-2 bg-gray-200 dark:bg-zinc-700 rounded-lg appearance-none cursor-pointer">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold text-gray-400 mb-1 uppercase">Cargar 12 fotos</label>
+                <input type="file" id="photoLoader" accept="image/*" multiple class="text-xs text-gray-400 file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:bg-zinc-100 dark:file:bg-zinc-800 file:text-zinc-700 dark:file:text-zinc-300">
+            </div>
+        </div>
+    </div>
 </div>
 
-<div id="grid"></div>
+<div id="grid" class="p-4 flex flex-wrap justify-center items-start transition-all"></div>
 
 <script>
-const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
-let fotos = Array(12).fill("https://via.placeholder.com/400");
+    // Referencias seguras al DOM
+    const DOM = {
+        grid: document.getElementById('grid'),
+        year: document.getElementById('year'),
+        brand: document.getElementById('brand'),
+        color: document.getElementById('color'),
+        size: document.getElementById('size'),
+        orientation: document.getElementById('orientation'),
+        photoLoader: document.getElementById('photoLoader'),
+        themeBtn: document.getElementById('toggle-theme')
+    };
 
-function crearDias(y, m) {
-    let f = new Date(y, m, 1).getDay();
-    let start = (f === 0) ? 6 : f - 1;
-    let total = new Date(y, m + 1, 0).getDate();
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    let fotos = Array(12).fill("https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400");
 
-    let h = ["L","M","M","J","V","S","D"].map(d=>`<div class="day-header">${d}</div>`).join("");
-    for (let i=0;i<start;i++) h += "<div></div>";
-    for (let d=1;d<=total;d++) h += `<div class="day-number">${d}</div>`;
-    return h;
-}
+    function crearDias(y, m) {
+        const d = new Date(y, m, 1).getDay();
+        const start = (d === 0) ? 6 : d - 1;
+        const total = new Date(y, m + 1, 0).getDate();
 
-function render(){
-    const grid = document.getElementById("grid");
-    grid.innerHTML = "";
-    const y = year.value;
-    const b = brand.value || "Handmade";
-    const w = size.value;
+        let h = ["L","M","X","J","V","S","D"].map(dia => `<div class="day-header">${dia}</div>`).join("");
+        for (let i = 0; i < start; i++) h += "<div></div>";
+        for (let d = 1; d <= total; d++) h += `<div class="day-number">${d}</div>`;
+        return h;
+    }
 
-    meses.forEach((m,i)=>{
-        const card=document.createElement("div");
-        card.className="polaroid";
-        card.style.width=w+"px";
-        card.innerHTML=`
-            <div class="photo-area"><img src="${fotos[i]}"></div>
-            <div class="mes-titulo">${m}</div>
-            <div>${y}</div>
-            <div class="days-grid">${crearDias(y,i)}</div>
-            <div class="marca">${b}</div>`;
-        grid.appendChild(card);
+    function render() {
+        const y = DOM.year.value;
+        const b = DOM.brand.value || "Studio Design";
+        const w = DOM.size.value;
+        const color = DOM.color.value;
+        const layout = DOM.orientation.value;
+
+        DOM.grid.className = (layout === 'horizontal') ? "p-4 layout-horizontal" : "p-4 flex flex-wrap justify-center items-start";
+        DOM.grid.innerHTML = "";
+
+        meses.forEach((m, i) => {
+            const card = document.createElement("div");
+            card.className = "polaroid";
+            card.style.width = w + "px";
+            
+            // Ajustar fuentes proporcionalmente al ancho de la tarjeta
+            const tituloSize = Math.max(18, w / 10);
+            const numeroSize = Math.max(8, w / 25);
+
+            card.innerHTML = `
+                <div class="photo-area"><img src="${fotos[i]}"></div>
+                <div class="mes-titulo" style="color: ${color}; font-size: ${tituloSize}px;">${m}</div>
+                <div style="font-size: ${numeroSize}px; font-weight: 700; opacity: 0.4;">${y}</div>
+                <div class="days-grid" style="color: ${color}">${crearDias(y, i)}</div>
+                <div class="marca" style="color: ${color}">${b}</div>
+            `;
+            DOM.grid.appendChild(card);
+        });
+    }
+
+    // Eventos
+    DOM.themeBtn.onclick = () => document.body.classList.toggle("dark-mode");
+    
+    [DOM.year, DOM.brand, DOM.color, DOM.orientation, DOM.size].forEach(el => {
+        el.oninput = render;
     });
-}
 
-toggle-theme.onclick=()=>document.body.classList.toggle("dark-mode");
-year.oninput=brand.oninput=color.onchange=orientation.onchange=size.oninput=render;
-render();
+    DOM.photoLoader.onchange = (e) => {
+        const files = Array.from(e.target.files).slice(0, 12);
+        files.forEach((file, i) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                fotos[i] = ev.target.result;
+                render();
+            };
+            reader.readAsDataURL(file);
+        });
+    };
 
-/* Service Worker desactivado para desarrollo */
-// if('serviceWorker' in navigator){
-//   navigator.serviceWorker.register('sw.js');
-// }
+    // Inicialización
+    render();
 </script>
 </body>
 </html>
