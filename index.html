@@ -18,6 +18,24 @@ body{
     background:#0a0a0a;
     color:#f2f2f7;
 }
+.dark-mode .bg-white{
+    background:#111 !important;
+    color:#f2f2f7;
+}
+.dark-mode input,
+.dark-mode select{
+    background:#1a1a1a;
+    color:white;
+    border-color:#444;
+}
+
+.dark-mode .day{
+    color:#f2f2f7;
+}
+.dark-mode .day-header{
+    color:#aaa;
+}
+
 .polaroid{
     background:#fff;
     padding:16px 16px 24px;
@@ -61,6 +79,24 @@ body{
     text-align:center;
     opacity:.6;
 }
+    @media print {
+    body {
+        background: white !important;
+    }
+    .polaroid {
+        box-shadow: none !important;
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+    }
+        .day, .day-header {
+    color:#111 !important;
+    }
+
+    input, select, button {
+        display: none !important;
+    }
+}
+
 </style>
 </head>
 
@@ -79,7 +115,10 @@ body{
 </select>
 <input id="photos" type="file" accept="image/*" multiple>
 
-<button id="theme" class="col-span-2 bg-black text-white rounded p-2">Modo oscuro</button>
+<button id="theme" class="bg-black text-white rounded p-2">Modo oscuro</button>
+<button onclick="window.print()" class="bg-zinc-800 text-white rounded p-2">
+    📄 Exportar PDF
+</button>    
 
 </div>
 </div>
@@ -133,6 +172,7 @@ r.readAsDataURL(f)
 
 theme.onclick=()=>{
 document.body.classList.toggle('dark-mode')
+render ()
 }
 
 document.querySelectorAll('#brand,#year,#size,#orientation').forEach(i=>i.oninput=render)
