@@ -262,6 +262,9 @@
         if('serviceWorker' in navigator){
             navigator.serviceWorker.register('sw.js');
         }
+        // if('serviceWorker' in navigator){
+        // //    navigator.serviceWorker.register('sw.js');
+        // // }
 
         const toggle=document.getElementById('toggle-theme');
         toggle.onclick=()=>{document.body.classList.toggle('dark-mode');};
