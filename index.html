@@ -81,7 +81,6 @@ body{
 }
 </style>
 </head>
-
 <body>
 
 <header class="text-center py-6">
@@ -92,13 +91,17 @@ body{
     Diseña tu calendario estilo polaroid
   </p>
 </header>
+<div id="installHint" class="text-center text-xs opacity-50 mb-4 hidden">
+💡 Puedes agregar este calendario a tu pantalla de inicio para usarlo sin internet
+</div>
+
 
 <!-- CONTROLES -->
 <div class="p-4 bg-white shadow sticky top-0 z-50">
 <div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
 
 <input id="brand" placeholder="Nombre del estudio" class="p-2 border rounded">
-<input id="year" type="number" class="p-2 border rounded">
+<input id="year" type="number" value="2025" class="p-2 border rounded">
 <input id="size" type="range" min="200" max="420">
 <select id="orientation" class="p-2 border rounded">
 <option value="vertical">Vertical</option>
@@ -115,9 +118,6 @@ Modo oscuro
 
 <button onclick="window.print()" class="bg-zinc-800 text-white rounded p-2">
 📄 Exportar PDF
-</button>
-<button id="installBtn" class="bg-emerald-600 text-white rounded p-2 hidden">
-⬇️ Instalar app
 </button>
 
 </div>
@@ -168,7 +168,7 @@ function loadState(){
 /* --------- RENDER --------- */
 function render(){
   grid.innerHTML=""
-  const y=year.value
+  const y = year.value || new Date().getFullYear()
   const b=brand.value||"Studio Design"
   const w=size.value
   const color=textColor.value
@@ -225,25 +225,13 @@ if("serviceWorker"in navigator){
   })
 }
 </script>
-    <script>
-let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
-
+<script>
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
-  deferredPrompt = e;
-  installBtn.classList.remove("hidden");
-});
-
-installBtn.addEventListener("click", async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  installBtn.classList.add("hidden");
+  const hint = document.getElementById("installHint");
+  if (hint) hint.classList.remove("hidden");
 });
 </script>
-
 
 </body>
 </html>
