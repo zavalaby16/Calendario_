@@ -5,13 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="manifest" href="manifest.json">
 
-<title>Polaroid Calendar Studio</title>
+<title>Calendario Polaroid</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
 <style>
-    
 body{
     font-family:'Inter',sans-serif;
     background:#f2f2f7;
@@ -21,23 +20,10 @@ body{
     background:#0a0a0a;
     color:#f2f2f7;
 }
-.dark-mode .bg-white{
-    background:#111 !important;
-    color:#f2f2f7;
-}
-.dark-mode input,
-.dark-mode select{
-    background:#1a1a1a;
-    color:white;
-    border-color:#444;
-}
-
-.dark-mode .day{
-    color:#f2f2f7;
-}
-.dark-mode .day-header{
-    color:#aaa;
-}
+.dark-mode .bg-white{background:#111!important;color:#f2f2f7;}
+.dark-mode input,.dark-mode select{background:#1a1a1a;color:white;border-color:#444;}
+.dark-mode .day{color:#f2f2f7;}
+.dark-mode .day-header{color:#aaa;}
 
 .polaroid{
     background:#fff;
@@ -46,20 +32,11 @@ body{
     margin:12px;
     box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
-.dark-mode .polaroid{
-    background:#1a1a1a;
-    color:white;
-}
-.photo-area{
-    aspect-ratio:1/1;
-    background:#e5e5ea;
-    overflow:hidden;
-}
-.photo-area img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
+.dark-mode .polaroid{background:#1a1a1a;color:white;}
+
+.photo-area{aspect-ratio:1/1;background:#e5e5ea;overflow:hidden;}
+.photo-area img{width:100%;height:100%;object-fit:cover;}
+
 .mes{
     font-family:'Playfair Display',serif;
     font-size:26px;
@@ -82,33 +59,18 @@ body{
     text-align:center;
     opacity:.6;
 }
-    @media print {
-    body {
-        background: white !important;
-    }
-    .polaroid {
-        box-shadow: none !important;
-        border: 1px solid #ddd;
-        page-break-inside: avoid;
-    }
-        .day, .day-header {
-    color:#111 !important;
-    }
 
-    input, select, button {
-        display: none !important;
-    }
-    header {
-    display: none !important;
-    }
-
+@media print{
+    body{background:white!important;}
+    .polaroid{box-shadow:none!important;border:1px solid #ddd;}
+    input,select,button,header{display:none!important;}
 }
-
 </style>
 </head>
 
 <body>
-    <header class="text-center py-6">
+
+<header class="text-center py-6">
   <h1 class="font-['Playfair_Display'] text-3xl italic font-black">
     Calendario Polaroid
   </h1>
@@ -119,21 +81,27 @@ body{
 
 <!-- CONTROLES -->
 <div class="p-4 bg-white shadow sticky top-0 z-50">
-<div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+<div class="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-6 gap-3 text-xs">
 
 <input id="brand" placeholder="Nombre del estudio" class="p-2 border rounded">
-<input id="year" type="number" value="2025" class="p-2 border rounded">
-<input id="size" type="range" min="200" max="420" value="280">
+<input id="year" type="number" class="p-2 border rounded">
+<input id="size" type="range" min="200" max="420">
 <select id="orientation" class="p-2 border rounded">
 <option value="vertical">Vertical</option>
 <option value="horizontal">Horizontal</option>
 </select>
+
 <input id="photos" type="file" accept="image/*" multiple>
 
-<button id="theme" class="bg-black text-white rounded p-2">Modo oscuro</button>
+<input id="textColor" type="color" class="h-9 w-full border rounded">
+
+<button id="theme" class="bg-black text-white rounded p-2">
+Modo oscuro
+</button>
+
 <button onclick="window.print()" class="bg-zinc-800 text-white rounded p-2">
-    📄 Exportar PDF
-</button>    
+📄 Exportar PDF
+</button>
 
 </div>
 </div>
@@ -142,68 +110,104 @@ body{
 <div id="grid" class="flex flex-wrap justify-center p-4"></div>
 
 <script>
-const grid=document.getElementById('grid')
-const meses=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-let fotos=Array(12).fill("https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400")
+const grid = document.getElementById('grid')
+const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+
+let fotos = Array(12).fill("https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=400")
 
 function dias(y,m){
-let d=new Date(y,m,1).getDay()
-let start=d===0?6:d-1
-let total=new Date(y,m+1,0).getDate()
-let h=["L","M","X","J","V","S","D"].map(x=>`<div class="day-header">${x}</div>`).join("")
-for(let i=0;i<start;i++)h+="<div></div>"
-for(let i=1;i<=total;i++)h+=`<div class="day">${i}</div>`
-return h
+  let d=new Date(y,m,1).getDay()
+  let start=d===0?6:d-1
+  let total=new Date(y,m+1,0).getDate()
+  let h=["L","M","X","J","V","S","D"].map(x=>`<div class="day-header">${x}</div>`).join("")
+  for(let i=0;i<start;i++)h+="<div></div>"
+  for(let i=1;i<=total;i++)h+=`<div class="day">${i}</div>`
+  return h
 }
 
+/* --------- LOCAL STORAGE --------- */
+function saveState(){
+  localStorage.setItem("polaroidSettings",JSON.stringify({
+    brand:brand.value,
+    year:year.value,
+    size:size.value,
+    orientation:orientation.value,
+    color:textColor.value,
+    dark:document.body.classList.contains("dark-mode")
+  }))
+}
+
+function loadState(){
+  const s=JSON.parse(localStorage.getItem("polaroidSettings"))
+  if(!s)return
+  brand.value=s.brand||""
+  year.value=s.year||2025
+  size.value=s.size||280
+  orientation.value=s.orientation||"vertical"
+  textColor.value=s.color||"#111111"
+  if(s.dark)document.body.classList.add("dark-mode")
+}
+
+/* --------- RENDER --------- */
 function render(){
-grid.innerHTML=""
-const y=year.value
-const b=brand.value||"Studio Design"
-const w=size.value
-grid.className=orientation.value==="horizontal"?"grid grid-cols-2 gap-4 p-4":"flex flex-wrap justify-center p-4"
+  grid.innerHTML=""
+  const y=year.value
+  const b=brand.value||"Studio Design"
+  const w=size.value
+  const color=textColor.value
 
-meses.forEach((m,i)=>{
-const c=document.createElement('div')
-c.className="polaroid"
-c.style.width=w+"px"
-c.innerHTML=`
-<div class="photo-area"><img src="${fotos[i]}"></div>
-<div class="mes">${m}</div>
-<div class="text-xs opacity-50">${y}</div>
-<div class="days">${dias(y,i)}</div>
-<div class="marca">${b}</div>`
-grid.appendChild(c)
-})
+  grid.className=orientation.value==="horizontal"
+    ?"grid grid-cols-2 gap-4 p-4"
+    :"flex flex-wrap justify-center p-4"
+
+  meses.forEach((m,i)=>{
+    const c=document.createElement('div')
+    c.className="polaroid"
+    c.style.width=w+"px"
+    c.innerHTML=`
+      <div class="photo-area"><img src="${fotos[i]}"></div>
+      <div class="mes" style="color:${color}">${m}</div>
+      <div class="text-xs opacity-50">${y}</div>
+      <div class="days">${dias(y,i)}</div>
+      <div class="marca" style="color:${color}">${b}</div>
+    `
+    grid.appendChild(c)
+  })
 }
 
+/* --------- EVENTOS --------- */
 photos.onchange=e=>{
-[...e.target.files].slice(0,12).forEach((f,i)=>{
-const r=new FileReader()
-r.onload=ev=>{fotos[i]=ev.target.result;render()}
-r.readAsDataURL(f)
-})
+  [...e.target.files].slice(0,12).forEach((f,i)=>{
+    const r=new FileReader()
+    r.onload=ev=>{fotos[i]=ev.target.result;render()}
+    r.readAsDataURL(f)
+  })
 }
 
 theme.onclick=()=>{
-document.body.classList.toggle('dark-mode')
-render ()
+  document.body.classList.toggle("dark-mode")
+  saveState()
+  render()
 }
 
-document.querySelectorAll('#brand,#year,#size,#orientation').forEach(i=>i.oninput=render)
+document
+.querySelectorAll("#brand,#year,#size,#orientation,#textColor")
+.forEach(i=>i.oninput=()=>{
+  saveState()
+  render()
+})
+
+loadState()
 render()
 </script>
-    <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("./sw.js")
-      .then(() => console.log("✅ Service Worker activo"))
-      .catch(err => console.error("❌ SW error", err));
-  });
+
+<script>
+if("serviceWorker"in navigator){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js")
+  })
 }
 </script>
-
 
 </body>
 </html>
