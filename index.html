@@ -35,7 +35,21 @@ body{
 .dark-mode .polaroid{background:#1a1a1a;color:white;}
 
 .photo-area{aspect-ratio:1/1;background:#e5e5ea;overflow:hidden;}
-.photo-area img{width:100%;height:100%;object-fit:cover;}
+.photo-area{
+    width:100%;
+    min-height:220px;   /* ← CLAVE */
+    background:#e5e5ea;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}    
+    
+   .photo-area img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+} 
 
 .mes{
     font-family:'Playfair Display',serif;
@@ -101,6 +115,9 @@ Modo oscuro
 
 <button onclick="window.print()" class="bg-zinc-800 text-white rounded p-2">
 📄 Exportar PDF
+</button>
+<button id="installBtn" class="bg-emerald-600 text-white rounded p-2 hidden">
+⬇️ Instalar app
 </button>
 
 </div>
@@ -208,6 +225,25 @@ if("serviceWorker"in navigator){
   })
 }
 </script>
+    <script>
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.classList.remove("hidden");
+});
+
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.classList.add("hidden");
+});
+</script>
+
 
 </body>
 </html>
